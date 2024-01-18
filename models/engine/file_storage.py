@@ -21,6 +21,10 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
+    def __init__(self):
+        """Instantiation of filestorage class"""
+        self.reload()
+
     def all(self, cls=None):
         """returns a dictionary
         Return:
@@ -43,9 +47,7 @@ class FileStorage:
         Args:
             obj: given object
         """
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
-            self.__objects[key] = obj
+        self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def save(self):
         """serialize the file path to JSON file path
